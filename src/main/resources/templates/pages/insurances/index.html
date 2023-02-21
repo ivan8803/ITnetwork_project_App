@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="cs-cz">
+<head th:replace="~{/fragments/layout :: head}"></head>
+
+<body>
+  <header th:replace="~{/fragments/layout :: navigation}"></header>
+
+  <div class="alert alert-success" th:if="${successMessage} != null">
+    <span th:text="${successMessage}"></span>
+  </div>
+
+  <div class="alert alert-danger" th:if="${dangerMessage} != null">
+    <span th:text="${dangerMessage}"></span>
+  </div>
+
+  <article class="container">
+    <header>
+      <h2>Seznam pojištění</h2>
+    </header>
+
+    <section class="row justify-content-center">
+      <table class="table" id="insurance-table">
+        <thead>
+          <th>Pojištění</th>
+          <th>Částka</th>
+          <th>Předmět</th>
+          <th>Pojištník</th>
+          <th>Akce</th>
+        </thead>
+        <tbody>
+          <tr th:each="index : ${#numbers.sequence(0, insurances.size()-1)}">
+            <td>
+              <a th:href="@{/insurances/detail/{insuranceId}(insuranceId=${insurances.get(index)[5]})}">
+                <span th:text="${insurances.get(index)[0]}"></span>
+              </a>
+            <td>
+              <span th:text="${insurances.get(index)[1]}"></span>
+            </td>
+            <td>
+              <span th:text="${insurances.get(index)[2]}"></span>
+            </td>
+            <td>
+              <span th:text="${insurances.get(index)[3]}"> </span> <span th:text="${insurances.get(index)[4]}"></span>
+            </td>
+            <td>
+              <a class="btn btn-danger my-btn-insurance" type="button" th:href="@{/insurances/delete/index/{ipId}/{insuranceId}(ipId=${insurances.get(index)[6]}, insuranceId=${insurances.get(index)[5]})}">Odstranit</a>
+              <a class="btn btn-warning text-light my-btn-insurance" type="button" th:href="@{/insurances/index/{ipId}/{insuranceId}(ipId=${insurances.get(index)[6]}, insuranceId=${insurances.get(index)[5]})}">Editovat</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer class="d-flex justify-content-center" th:if="${totalPages > 1}">
+      <nav class="text-center">
+        <ul class="pagination">
+          <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}"><a class="page-link" th:href="@{'/insurances/' + ${currentPage - 1}}">Předchozí</a></li>
+
+          <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage ? 'active' : ''}"><a th:text="${i}" class="page-link" th:href="@{/insurances/{pageNumber}(pageNumber=${i})}"></a></li>
+
+          <li class="page-item" th:classappend="${currentPage == totalPages ? 'disabled' : ''}"><a class="page-link" th:href="@{'/insurances/' + ${currentPage + 1}}">Další</a></li>
+        </ul>
+      </nav>
+    </footer>
+  </article>
+</body>

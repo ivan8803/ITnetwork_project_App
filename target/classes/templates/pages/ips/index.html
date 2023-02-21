@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="cs-cz">
+<head th:replace="~{/fragments/layout :: head}"></head>
+<body>
+    <header th:replace="~{/fragments/layout :: navigation}"></header>
+
+    <div class="alert alert-success" th:if="${successMessage} != null">
+        <span th:text="${successMessage}"></span>
+    </div>
+
+    <div class="alert alert-danger" th:if="${dangerMessage} != null">
+        <span th:text="${dangerMessage}"></span>
+    </div>
+
+    <article class="container">
+        <header class="row">
+            <h2>Pojištěnci</h2>
+        </header>
+
+        <section class="row justify-content-center">
+            <a class="btn btn-primary fw-bold mb-4 my-btn-ip" th:href="@{/ips/add_ip}">Nový pojištěnec</a>
+            <table class="table my-table">
+                <thead>
+                    <th>Jméno</th>
+                    <th>Bydliště</th>
+                    <th>Akce</th>
+                </thead>
+                <tbody>
+                    <tr th:each="ip : ${ips}">
+                        <td>
+                            <a th:href="@{/ips/ip/{ipId}(ipId=${ip.ipId})}">
+                                <span th:text="${ip.firstName}"></span> <span th:text="${ip.lastName}"></span>
+                            </a>
+                        <td>
+                            <span th:text="${ip.street}"></span>, <span th:text="${ip.city}"></span>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger my-btn-insurance" type="button" th:href="@{/ips/delete_ip/{ipId}(ipId=${ip.ipId})}">Odstranit</a>
+                            <a class="btn btn-warning text-light my-btn-insurance" type="button" th:href="@{/ips/index/{ipId}(ipId=${ip.ipId})}">Editovat</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer class="d-flex justify-content-center" th:if="${totalPages > 1}">
+            <nav class="text-center">
+                <ul class="pagination">
+                    <li class="page-item" th:classappend="${currentPage == 1 ? 'disabled' : ''}"><a class="page-link" th:href="@{'/ips/' + ${currentPage - 1}}">Předchozí</a></li>
+
+                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage ? 'active' : ''}"><a th:text="${i}" class="page-link" th:href="@{/ips/{pageNumber}(pageNumber=${i})}"></a></li>
+
+                    <li class="page-item" th:classappend="${currentPage == totalPages ? 'disabled' : ''}"><a class="page-link" th:href="@{'/ips/' + ${currentPage + 1}}">Další</a></li>
+                </ul>
+            </nav>
+        </footer>
+    </article>
+</body>
+</html>
+

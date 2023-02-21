@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="cs-cz">
+<head th:replace="~{/fragments/layout :: head}"></head>
+<body>
+    <header th:replace="~{/fragments/layout :: navigation}"></header>
+
+    <div class="alert alert-success" th:if="${successMessage} != null">
+        <span th:text="${successMessage}"></span>
+    </div>
+
+    <div class="alert alert-danger" th:if="${dangerMessage} != null">
+        <span th:text="${dangerMessage}"></span>
+    </div>
+
+    <article class="container text-center">
+        <header class="row align-items-center h5 flex-nowrap">
+            <div class="col-4 col-lg-2">
+                <img src="/img/default_portrait.png" class="border border-dark portret" alt="portret">
+            </div>
+            <div class="col-4 col-lg-5 text-start">
+                <ul class="list-unstyled">
+                    <li class="h2 fw-bold" ><span th:text="${ip.firstName}"></span> <span th:text="${ip.lastName}"></span></li>
+                    <li th:text="${ip.street}"></li>
+                    <li th:text="${ip.city}"></li>
+                    <li th:text="${ip.postcode}"></li>
+                </ul>
+            </div>
+            <div class="col-4 col-lg-5 text-start d-flex">
+                <ul class="list-unstyled justify-content-center">
+                    <li th:text="${ip.email}"></li>
+                    <li th:text="${ip.phone}"></li>
+                </ul>
+            </div>
+        </header>
+
+
+        <section class="row">
+            <h2>Sjednaná pojištění</h2>
+            <table class="table text-start my-table">
+                <thead>
+                    <th>Pojištění</th>
+                    <th>Částka</th>
+                    <th>Akce</th>
+                </thead>
+                <tbody>
+                    <tr th:each="insurance : ${insurances}">
+                        <td>
+                            <a th:href="@{/insurances/detail/{insuranceId}(insuranceId=${insurance.insuranceId})}"><span th:text="${insurance.name}"></span></a>
+                        </td>
+                        <td th:text="${insurance.amount}"></td>
+                        <td>
+                            <a th:href="@{/insurances/delete/ip/{ipId}/{insuranceId}(ipId=${ip.ipId}, insuranceId=${insurance.insuranceId})}" class="btn btn-danger my-btn my-btn-insurance" type="button">Odstranit</a>
+                            <a th:href="@{/insurances/ip/{ipId}/{insuranceId}(ipId=${ip.ipId}, insuranceId=${insurance.insuranceId})}" class="btn btn-warning text-white my-btn my-btn-insurance" type="button">Editovat</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+        <footer class="row justify-content-center align-items-center">
+            <a class="btn btn-primary my-btn my-btn-ip" type="button" th:href="@{/insurances/add/{ipId}(ipId=${ip.ipId})}">Přidat pojištění</a>
+            <a class="btn btn-warning text-white my-btn my-btn-ip" type="button" th:href="@{/ips/detail/{ipId}(ipId=${ip.ipId})}">Editovat pojištěnce</a>
+            <a class="btn btn-danger text-white my-btn my-btn-ip" type="button" th:href="@{/ips/delete_ip/{ipId}(ipId=${ip.ipId})}">Odstranit&nbsppojištěnce</a>
+        </footer>
+    </article>
+</body>
+</html>
+

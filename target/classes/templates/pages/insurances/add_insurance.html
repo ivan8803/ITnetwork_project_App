@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="cs-cz">
+<head th:replace="~{/fragments/layout :: head}"></head>
+
+<body>
+    <header th:replace="~{/fragments/layout :: navigation}"></header>
+
+    <article class="container">
+        <header class="h1">Přidat pojištění u uživatele <span th:text="${ip.firstName}"></span> <span th:text="${ip.lastName}"></span></header>
+
+        <section class="col-8">
+            <form th:action="@{/insurances/add/{ipId}(ipId=${ip.ipId})}" th:object="${insuranceForm}" method="post" id="needs-validation" novalidate="novalidate">
+                <div class="row">
+                    <div class="form-group pb-3">
+                        <label for="insurance-selector" class="form-label">Pojištění</label>
+                        <select class="form-select" id="insurance-selector" th:field="*{name}">
+                            <option th:value="'Úrazové pojištění'">Úrazové pojištění</option>
+                            <option th:value="'Životní pojištění'">Životní pojištění</option>
+                            <option th:value="'Cestovní pojištění'">Cestovní pojištění</option>
+                            <option th:value="'Pojištění odpovědnosti'">Pojištění odpovědnosti</option>
+                            <option th:value="'Pojištění domácnosti'">Pojištění domácnosti</option>
+                            <option th:value="'Pojištění majetku'">Pojištění majetku</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group pb-3">
+                            <label for="amount" class="form-label">Částka</label>
+                            <input type="number" id="amount" class="form-control" th:field="*{amount}">
+                        </div>
+                        <div class="form-group pb-3">
+                            <label for="valid-from" class="form-label">Platnost od</label>
+                            <input type="date" id="valid-from" class="form-control" th:field="*{validFrom}" required>
+                            <div class="invalid-feedback">
+                                Zadejte datum.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group pb-3">
+                            <label for="subject" class="form-label">Předmět pojištění</label>
+                            <input type="text" id="subject" class="form-control" placeholder="Byt" th:field="*{subject}" required>
+                            <div class="invalid-feedback">
+                                Zadejte předmět pojištění.
+                            </div>
+                        </div>
+                        <div class="form-group pb-3">
+                            <label for="valid-until" class="form-label">Platnost do</label>
+                            <input type="date" id="valid-until" class="form-control" th:field="*{validUntil}" required>
+                            <div class="invalid-feedback">
+                                Zadejte datum.
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary my-btn-insurance">Uložit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+    </article>
+</body>
+</html>

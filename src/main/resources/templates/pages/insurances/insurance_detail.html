@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="cs-cz">
+<head th:replace="~{/fragments/layout :: head}"></head>
+
+<body>
+  <header th:replace="~{/fragments/layout :: navigation}"></header>
+
+  <article class="container">
+
+    <div class="alert alert-success" th:if="${successMessage} != null">
+      <span th:text="${successMessage}"></span>
+    </div>
+
+    <header>
+      <h2>Pojištění</h2>
+    </header>
+
+    <section>
+      <ul>
+        <li><strong>Název pojištění:</strong> <span th:text="${insurance.name}"></span></li>
+        <li><strong>Pojistná částka:</strong> <span th:text="${insurance.amount}"></span></li>
+        <li><strong>Předmět pojištění:</strong> <span th:text="${insurance.subject}"></span></li>
+        <li><strong>Platnost pojištění:</strong> <span th:text="${#dates.format(insurance.validFrom, 'dd.MM.yyyy')}"></span> - <span th:text="${#dates.format(insurance.validUntil, 'dd.MM.yyyy')}"></span></li>
+        <li><strong>Pojistník:</strong> <span th:text="${ip.firstName}"></span> <span th:text="${ip.lastName}"></span></li>
+        <li><strong>Adresa:</strong> <span th:text="${ip.street}"></span>, <span th:text="${ip.postcode}"></span>, <span th:text="${ip.city}"></span></li>
+        <li><strong>Email:</strong> <span th:text="${ip.email}"></span></li>
+        <li><strong>Telefon:</strong> <span th:text="${ip.phone}"></span></li>
+      </ul>
+    </section>
+
+    <footer>
+      <a th:href="@{/insurances/delete/detail/{ipId}/{insuranceId}(ipId=${ip.ipId}, insuranceId=${insurance.insuranceId})}" class="btn btn-danger my-btn my-btn-insurance" type="button">Odstranit</a>
+      <a th:href="@{/insurances/detail/{ipId}/{insuranceId}(ipId=${ip.ipId}, insuranceId=${insurance.insuranceId})}" class="btn btn-warning text-white my-btn my-btn-insurance" type="button">Editovat</a>
+    </footer>
+  </article>
+</body>
